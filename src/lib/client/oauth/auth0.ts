@@ -58,6 +58,6 @@ export async function login(auth0Promise: Promise<Auth0Client>, preserveRoute = 
  */
 export async function logout(auth0Promise: Promise<Auth0Client>) {
 	const auth0 = await auth0Promise;
-	authToken.set('');
+	authToken.set(undefined);
 	await auth0.logout(config.logout_config);
 }
