@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import { signOut, signIn } from '@auth/sveltekit/client';
 
-	//  TODO: Make sure this session is genuinely authenticated
 	const { session } = $page.data;
 </script>
 
@@ -14,5 +13,5 @@
 	<h1>Protected page</h1>
 	<p>This is a protected content. You can access this content because you are signed in.</p>
 	<p>Session expiry: {session?.expires}</p>
-	<button on:click={signOut}>Sign out</button>
+	<button on:click={async () => signOut}>Sign out</button>
 {/if}

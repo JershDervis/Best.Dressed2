@@ -1,15 +1,25 @@
-/// <reference types="@auth/sveltekit" />
+// / <reference types="@sveltejs/kit" />
+// / <reference types="@auth/sveltekit" />
+
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-
-import type { User } from '@auth0/auth0-spa-js';
-
 // and what to do when importing types
 declare namespace App {
 	// interface Error {}
-	interface Locals {
-		user: any;
-	}
+	// interface Locals {	}
 	// interface PageData {}
 	// interface Platform {}
+}
+
+declare global {
+	declare namespace App {
+		interface Session extends import('@auth/core').DefaultSession {
+			user?: {
+				id: string;
+			} & import('@auth/core').DefaultSession['user'];
+		}
+		interface PageData {
+			session: Session | null;
+		}
+	}
 }

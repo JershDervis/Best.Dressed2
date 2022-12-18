@@ -10,6 +10,7 @@ import type { LayoutServerLoad } from './$types';
  */
 export const load: LayoutServerLoad = async (event) => {
 	const session = await event.locals.getSession();
+	// If not logged in, redirect to login
 	if (session === null || session.user === undefined) throw redirect(303, '/');
 	return {
 		session
