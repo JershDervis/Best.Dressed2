@@ -26,7 +26,7 @@
 		{ name: 'Login', href: '/login', bindDisplay: !isUserLogged },
 		{ name: 'Profile', href: '/user/profile', bindDisplay: isUserLogged },
 		{ name: 'Settings', href: '/user/settings', bindDisplay: isUserLogged },
-		{ name: 'Logout', href: signOut, bindDisplay: isUserLogged }
+		{ name: 'Logout', href: () => signOut({ callbackUrl: '/' }), bindDisplay: isUserLogged }
 	] satisfies NavLink[];
 </script>
 
@@ -59,7 +59,9 @@
 						{#if typeof link.href === 'string'}
 							<li><a href={link.href}>{link.name}</a></li>
 						{:else if typeof link.href === 'function'}
-							<li><button on:click={link.href}>{link.name}</button></li>
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<!-- svelte-ignore a11y-missing-attribute -->
+							<li><a on:click={link.href}>{link.name}</a></li>
 						{/if}
 					{/each}
 				</ul>
@@ -83,7 +85,9 @@
 							{#if typeof link.href === 'string'}
 								<li><a href={link.href}>{link.name}</a></li>
 							{:else if typeof link.href === 'function'}
-								<li><button on:click={link.href}>{link.name}</button></li>
+								<!-- svelte-ignore a11y-click-events-have-key-events -->
+								<!-- svelte-ignore a11y-missing-attribute -->
+								<li><a on:click={link.href}>{link.name}</a></li>
 							{/if}
 						{/if}
 					{/each}
@@ -102,7 +106,9 @@
 					{#if typeof link.href === 'string'}
 						<li><a href={link.href}>{link.name}</a></li>
 					{:else if typeof link.href === 'function'}
-						<li><button on:click={link.href}>{link.name}</button></li>
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<!-- svelte-ignore a11y-missing-attribute -->
+						<li><a alt={link.name} on:click={link.href}>{link.name}</a></li>
 					{/if}
 				{/if}
 			{/each}
