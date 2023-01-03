@@ -11,7 +11,6 @@ datasource db {
 }
 
 // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -20,7 +19,7 @@ model Account {
   providerAccountId String
   refresh_token     String? //@db.Text
   access_token      String? //@db.Text
-  expires_at        Int?
+  expires_in        Int?
   token_type        String?
   scope             String?
   id_token          String? //@db.Text

@@ -1,3 +1,9 @@
+/* eslint-disable */
+// @ts-nocheck
+
+//  The above checks are disabled
+//  Read more here: https://github.com/nextauthjs/next-auth/issues/6174
+
 import type { Handle } from '@sveltejs/kit';
 import { createContext } from '$lib/server/trpc/context';
 import { router } from '$lib/server/trpc/router';
@@ -9,28 +15,29 @@ import {
 	AUTH0_CLIENT_SECRET,
 	AUTH_SECRET
 } from '$env/static/private';
-import SvelteKitAuth from '@auth/sveltekit';
+import { SvelteKitAuth } from '@auth/sveltekit';
 import Auth0 from '@auth/core/providers/auth0';
-// import { prisma } from '$lib/server/db/prisma';
-// import { PrismaAdapter } from '@next-auth/prisma-adapter';
-// import type { Adapter } from '@auth/core/adapters';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from '$lib/server/prisma';
 
 /**
  * Setup Authentication
  */
 const authHandler = SvelteKitAuth({
 	secret: AUTH_SECRET,
-	// callbacks: {
-	// 	session({ session, user }) {
-	// 		if (session.user) {
-	// 			session.user.id = user.id;
-	// 		}
-	// 		return session; // The return type will match the one returned in `useSession()`
-	// 	}
-	// },
-	// adapter: PrismaAdapter(prisma) as Adapter<boolean | undefined>,
+	adapter: PrismaAdapter(prisma),
+	session: {
+		strategy: 'database',
+		generateSessionToken: () => {
+			return crypto.randomUUID();
+		}
+	},
 	providers: [
-		Auth0({ issuer: AUTH0_DOMAIN, clientId: AUTH0_CLIENT_ID, clientSecret: AUTH0_CLIENT_SECRET })
+		Auth0({
+			issuer: AUTH0_DOMAIN,
+			clientId: AUTH0_CLIENT_ID,
+			clientSecret: AUTH0_CLIENT_SECRET
+		})
 	]
 }) satisfies Handle;
 
