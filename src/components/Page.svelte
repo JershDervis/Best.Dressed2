@@ -7,7 +7,7 @@
 
 <svelte:head>
 	<title>{displayTitle}</title>
-	<meta charset="utf-8" />
+	<!-- <meta charset="utf-8" /> -->
 	<meta name="description" content={description} />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 
@@ -27,6 +27,4 @@
 	<meta name="twitter:image" content="https://svelte.dev/images/twitter-thumbnail.jpg" />
 </svelte:head>
 
-<div class="m-2">
-	<slot />
-</div>
+<slot />

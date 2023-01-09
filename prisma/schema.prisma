@@ -10,6 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Party {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  hosts     User[]   @relation("Hosts")
+  guests    User[]   @relation("Guests")
+}
+
 // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
 model Account {
   id                String  @id @default(cuid())
@@ -46,6 +55,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  hosting       Party[]   @relation("Hosts")
+  guestOf       Party[]   @relation("Guests")
 }
 
 model VerificationToken {

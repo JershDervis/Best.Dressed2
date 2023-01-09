@@ -1,7 +1,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-//  The above checks are disabled
+//  The above checks have been disabled because of a known ts issue in the latest version of next-auth
 //  Read more here: https://github.com/nextauthjs/next-auth/issues/6174
 
 import type { Handle } from '@sveltejs/kit';

@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
-	import { PUBLIC_APP_NAME } from '$env/static/public';
-	import type { Session } from '@auth/core';
+	import type { Session } from '@auth/core/types';
 
 	export let session: Session | null;
 
-	const userImage = $page.data?.session?.user?.image ?? 'https://placeimg.com/80/80/people';
+	const userImage = $page.data?.session?.user?.image ?? '/person.svg';
 
 	const isUserLogged = session?.user !== undefined;
 
@@ -34,7 +33,7 @@
 	<input id="drawer-navbar" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content flex flex-col">
 		<!-- Navbar -->
-		<div class="w-full navbar bg-base-300">
+		<div class="w-full navbar bg-base-300 gap-2 absolute">
 			<div class="flex-none lg:hidden">
 				<label for="drawer-navbar" class="btn btn-square btn-ghost">
 					<svg
@@ -51,28 +50,48 @@
 					>
 				</label>
 			</div>
-			<div class="flex-1 px-2 mx-2">{PUBLIC_APP_NAME}</div>
-			<div class="flex-none hidden lg:block">
+			<div class="flex-1 px-2 mx-2">
+				<a href="/" class="btn btn-ghost normal-case text-xl">
+					<img class="w-6 h-6 mr-4" alt="Best Dressed" src="/party.svg" />
+					Best Dressed
+				</a>
+			</div>
+			<div class="flex-none hidden lg:block gap-2">
 				<ul class="menu menu-horizontal">
 					<!-- Navbar menu content here -->
 					{#each navLinks as link}
-						{#if typeof link.href === 'string'}
-							<li><a href={link.href}>{link.name}</a></li>
-						{:else if typeof link.href === 'function'}
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<!-- svelte-ignore a11y-missing-attribute -->
-							<li><a on:click={link.href}>{link.name}</a></li>
-						{/if}
+						<li>
+							{#if typeof link.href === 'string'}
+								<a class="rounded-md" href={link.href}>{link.name}</a>
+							{:else if typeof link.href === 'function'}
+								<!-- svelte-ignore a11y-click-events-have-key-events -->
+								<!-- svelte-ignore a11y-missing-attribute -->
+								<a class="rounded-md" on:click={link.href}>{link.name}</a>
+							{/if}
+						</li>
 					{/each}
 				</ul>
 			</div>
-			<div class="dropdown dropdown-end">
+			<div class="flex-none dropdown dropdown-end">
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label tabindex="0" class="btn btn-ghost btn-circle avatar">
 					<div class="w-10 rounded-full">
-						<!-- svelte-ignore a11y-missing-attribute -->
-						<img src={userImage} />
+						{#if $page.data?.session?.user?.image}
+							<!-- svelte-ignore a11y-missing-attribute -->
+							<img src={userImage} />
+						{:else}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="currentColor"
+								class="inline-block w-10 stroke-current"
+								viewBox="0 0 16 16"
+							>
+								<path
+									d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+								/>
+							</svg>
+						{/if}
 					</div>
 				</label>
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -95,7 +114,9 @@
 			</div>
 		</div>
 		<!-- Page content here -->
-		<slot />
+		<div class="flex items-center justify-center h-screen">
+			<slot />
+		</div>
 	</div>
 	<div class="drawer-side">
 		<label for="drawer-navbar" class="drawer-overlay" />
@@ -108,7 +129,7 @@
 					{:else if typeof link.href === 'function'}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-missing-attribute -->
-						<li><a alt={link.name} on:click={link.href}>{link.name}</a></li>
+						<li><a on:click={link.href}>{link.name}</a></li>
 					{/if}
 				{/if}
 			{/each}

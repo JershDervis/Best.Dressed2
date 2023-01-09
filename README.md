@@ -26,7 +26,7 @@
 - [x] [TailwindCSS](https://tailwindcss.com/) // [DaisyUI](https://daisyui.com/) - Styling
 - [x] [Trpc](https://trpc.io/) - Typesafe API
 - [x] [Prisma](https://www.prisma.io/) - Database ORM
-- [x] [Sveltekit Auth](https://next-auth.js.org/) - User authentication
+- [x] [Authjs](https://authjs.dev/) - User authentication
 - [ ] [Pusher](https://pusher.com/) - Realtime updates
 
 Second go at this using prefered technologies this time around.

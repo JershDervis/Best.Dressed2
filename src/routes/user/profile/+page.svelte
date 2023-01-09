@@ -2,7 +2,6 @@
 	import Page from '$components/Page.svelte';
 	import type { PageData } from './$types';
 
-	// This is the data that will be passed to the page
 	export let data: PageData;
 
 	const { user } = data.session;
