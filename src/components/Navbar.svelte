@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
+	import { PUBLIC_APP_NAME } from '$env/static/public';
 	import type { Session } from '@auth/core/types';
 
 	export let session: Session | null;
@@ -16,9 +17,9 @@
 	};
 
 	const navLinks = [
-		{ name: 'Home', href: '/', bindDisplay: true },
-		{ name: 'About', href: '/about', bindDisplay: true },
-		{ name: 'Contact', href: '/contact', bindDisplay: true }
+		{ name: 'Home', href: '/', bindDisplay: true }
+		// { name: 'About', href: '/about', bindDisplay: true },
+		// { name: 'Contact', href: '/contact', bindDisplay: true }
 	] satisfies NavLink[];
 
 	const profileLinks = [
@@ -53,7 +54,7 @@
 			<div class="flex-1 px-2 mx-2">
 				<a href="/" class="btn btn-ghost normal-case text-xl">
 					<img class="w-6 h-6 mr-4" alt="Best Dressed" src="/party.svg" />
-					Best Dressed
+					{PUBLIC_APP_NAME}
 				</a>
 			</div>
 			<div class="flex-none hidden lg:block gap-2">
@@ -62,11 +63,17 @@
 					{#each navLinks as link}
 						<li>
 							{#if typeof link.href === 'string'}
-								<a class="rounded-md" href={link.href}>{link.name}</a>
+								<a
+									class="rounded-md mx-1 {$page.url.pathname === link.href && 'active'}"
+									href={link.href}>{link.name}</a
+								>
 							{:else if typeof link.href === 'function'}
 								<!-- svelte-ignore a11y-click-events-have-key-events -->
 								<!-- svelte-ignore a11y-missing-attribute -->
-								<a class="rounded-md" on:click={link.href}>{link.name}</a>
+								<a
+									class="rounded-md mx-1 {$page.url.pathname === link.href && 'active'}"
+									on:click={link.href}>{link.name}</a
+								>
 							{/if}
 						</li>
 					{/each}
@@ -125,11 +132,20 @@
 			{#each navLinks as link}
 				{#if link.bindDisplay}
 					{#if typeof link.href === 'string'}
-						<li><a href={link.href}>{link.name}</a></li>
+						<li>
+							<a class="rounded-md {$page.url.pathname === link.href && 'active'}" href={link.href}
+								>{link.name}</a
+							>
+						</li>
 					{:else if typeof link.href === 'function'}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-missing-attribute -->
-						<li><a on:click={link.href}>{link.name}</a></li>
+						<li>
+							<a
+								class="rounded-md {$page.url.pathname === link.href && 'active'}"
+								on:click={link.href}>{link.name}</a
+							>
+						</li>
 					{/if}
 				{/if}
 			{/each}

@@ -10,13 +10,18 @@ import { router } from '$lib/server/trpc/router';
 import { createTRPCHandle } from 'trpc-sveltekit';
 import { sequence } from '@sveltejs/kit/hooks';
 import {
-	AUTH0_DOMAIN,
-	AUTH0_CLIENT_ID,
-	AUTH0_CLIENT_SECRET,
-	AUTH_SECRET
+	AUTH_SECRET,
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET,
+	FACEBOOK_APP_ID,
+	FACEBOOK_APP_SECRET,
+	SPOTIFY_CLIENT_ID,
+	SPOTIFY_CLIENT_SECRET
 } from '$env/static/private';
 import { SvelteKitAuth } from '@auth/sveltekit';
-import Auth0 from '@auth/core/providers/auth0';
+import Google from '@auth/core/providers/google';
+import Facebook from '@auth/core/providers/facebook';
+import Spotify from '@auth/core/providers/spotify';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '$lib/server/prisma';
 
@@ -32,11 +37,26 @@ const authHandler = SvelteKitAuth({
 			return crypto.randomUUID();
 		}
 	},
+	callbacks: {
+		session({ session, user }) {
+			if (session.user) {
+				session.user.id = user.id;
+			}
+			return session;
+		}
+	},
 	providers: [
-		Auth0({
-			issuer: AUTH0_DOMAIN,
-			clientId: AUTH0_CLIENT_ID,
-			clientSecret: AUTH0_CLIENT_SECRET
+		Google({
+			clientId: GOOGLE_CLIENT_ID,
+			clientSecret: GOOGLE_CLIENT_SECRET
+		}),
+		Facebook({
+			clientId: FACEBOOK_APP_ID,
+			clientSecret: FACEBOOK_APP_SECRET
+		}),
+		Spotify({
+			clientId: SPOTIFY_CLIENT_ID,
+			clientSecret: SPOTIFY_CLIENT_SECRET
 		})
 	]
 }) satisfies Handle;

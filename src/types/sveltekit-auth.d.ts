@@ -1,4 +1,4 @@
-// import SvelteKitAuth, { DefaultSession } from '@auth/core';
+// import type { DefaultSession } from '@auth/core';
 
 // declare module '@auth/core' {
 // 	/**

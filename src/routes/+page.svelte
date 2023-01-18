@@ -3,19 +3,20 @@
 	import RegisterForm from '$components/RegisterForm.svelte';
 	import { PUBLIC_CLOUD_NAME } from '$env/static/public';
 	import { Cloudinary } from '@cloudinary/url-gen';
+	import PartyList from '$components/PartyList.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
 	// Create and configure your Cloudinary instance.
-	const cld = new Cloudinary({
-		cloud: {
-			cloudName: PUBLIC_CLOUD_NAME
-		}
-	});
+	// const cld = new Cloudinary({
+	// 	cloud: {
+	// 		cloudName: PUBLIC_CLOUD_NAME
+	// 	}
+	// });
 
 	// Instantiate a CloudinaryImage object for the image with public ID, 'front_face'.
-	const myImage = cld.image('cld-sample');
+	// const myImage = cld.image('cld-sample');
 </script>
 
 <Page title="Home" description="Vote on the best dressed at your party!">
@@ -24,7 +25,8 @@
 			<!-- Title -->
 			<div class="w-full">
 				<h1 class="text-4xl font-bold tracking-tight text-center sm:text-6xl">
-					Get your party started
+					<!-- Get your party started -->
+					Get Started
 				</h1>
 				<p class="text-center mt-4">Create an account to get started...</p>
 			</div>
@@ -33,9 +35,21 @@
 			<RegisterForm />
 		</div>
 	{:else}
-		<div class="flex flex-col justify-center items-center">
-			<h1 class="text-4xl font-bold">Welcome to the party!</h1>
-			<p class="text-xl">Vote on the best dressed at your party!</p>
+		<div class="flex flex-wrap gap-4 justify-center">
+			<!-- Display Parties the User is a host of -->
+			<div class="card bg-base-200 p-6">
+				<h1 class="text-4xl font-bold">Your Parties</h1>
+				{#if data.parties && data.parties.length > 0}
+					<PartyList parties={data.parties} />
+				{:else}
+					<p>Create a party to get started!</p>
+				{/if}
+			</div>
+
+			<!-- Display Parties the User is a guest at -->
+			<div class="card bg-base-200 p-6">
+				<h1 class="text-4xl font-bold">Guest Of</h1>
+			</div>
 		</div>
 	{/if}
 </Page>

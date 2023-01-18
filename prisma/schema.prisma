@@ -16,8 +16,15 @@ model Party {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   hosts     User[]   @relation("Hosts")
-  guests    User[]   @relation("Guests")
+  guests    User[]   @relation("Guests") // Allow non registered guests instead from Guest table
 }
+
+// model Guest {
+//   id         String @id @default(cuid())
+//   name       String
+//   userId     String
+//   linkedUser User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+// }
 
 // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
 model Account {

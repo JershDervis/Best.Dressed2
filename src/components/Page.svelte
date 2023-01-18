@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { PUBLIC_APP_NAME } from '$env/static/public';
+
 	export let title: string | undefined = undefined;
 	export let description = "Vote on who's dressed the best at your party";
 
-	const displayTitle = (title !== undefined ? title + ' • ' : '') + 'Best Dressed';
+	const displayTitle = (title !== undefined ? title + ' • ' : '') + PUBLIC_APP_NAME;
 </script>
 
 <svelte:head>
