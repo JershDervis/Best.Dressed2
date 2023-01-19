@@ -1,19 +1,30 @@
 <script lang="ts">
 	import type { Party } from '@prisma/client';
 
-	export let parties: Party[];
+	interface PartyProp extends Party {
+		_count: {
+			guests: number;
+		};
+	}
+
+	export let parties: PartyProp[];
 </script>
 
-<div class="flex p-1">
+{#if parties.length > 0}
 	{#each parties as party}
-		<button
-			class="bg-base-100 hover:bg-base-300 text-accent-content rounded-box flex items-center p-4 shadow-xl"
+		<a
+			href="/party/{party.id}"
+			class="bg-indigo-800 hover:bg-indigo-700 text-accent-content rounded-box flex items-center p-4 shadow-xl"
 		>
 			<div class="flex-1 px-2">
 				<h2 class="text-3xl font-extrabold">{party.name}</h2>
-				<p class="text-sm text-opacity-80">{party.id}</p>
+				<p class="text-sm text-opacity-80">
+					{party._count.guests + ' ' + (party._count.guests == 1 ? 'guest' : 'guests')}
+				</p>
 			</div>
 			<!-- <div class="flex-0">Test</div> -->
-		</button>
+		</a>
 	{/each}
-</div>
+{:else}
+	<p>No parties to show here...</p>
+{/if}

@@ -3,7 +3,7 @@
 </script>
 
 <div class="card bg-base-200 p-6">
-	<p class="mb-2">Sign in with</p>
+	<p class="mb-2">Continue with...</p>
 	<div class="flex flex-wrap gap-4 w-full">
 		<button on:click={() => signIn('google')} class="btn btn-active btn-ghost gap-2 flex-auto">
 			<svg

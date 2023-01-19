@@ -19,12 +19,12 @@ model Party {
   guests    User[]   @relation("Guests") // Allow non registered guests instead from Guest table
 }
 
-// model Guest {
-//   id         String @id @default(cuid())
-//   name       String
-//   userId     String
-//   linkedUser User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-// }
+model Guest {
+  id         String @id @default(cuid())
+  name       String
+  userId     String
+  linkedUser User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
 // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
 model Account {
@@ -64,6 +64,7 @@ model User {
   sessions      Session[]
   hosting       Party[]   @relation("Hosts")
   guestOf       Party[]   @relation("Guests")
+  Guest         Guest[]
 }
 
 model VerificationToken {

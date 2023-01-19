@@ -37,8 +37,8 @@
 	{:else}
 		<div class="flex flex-wrap gap-4 justify-center">
 			<!-- Display Parties the User is a host of -->
-			<div class="card bg-base-200 p-6">
-				<h1 class="text-4xl font-bold">Your Parties</h1>
+			<div class="card bg-base-200 p-4">
+				<h1 class="text-4xl font-bold mb-2">Your Parties</h1>
 				{#if data.parties && data.parties.length > 0}
 					<PartyList parties={data.parties} />
 				{:else}
@@ -47,7 +47,7 @@
 			</div>
 
 			<!-- Display Parties the User is a guest at -->
-			<div class="card bg-base-200 p-6">
+			<div class="card bg-base-200 p-4">
 				<h1 class="text-4xl font-bold">Guest Of</h1>
 			</div>
 		</div>
