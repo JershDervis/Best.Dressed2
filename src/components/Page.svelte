@@ -29,4 +29,8 @@
 	<meta name="twitter:image" content="https://svelte.dev/images/twitter-thumbnail.jpg" />
 </svelte:head>
 
-<slot />
+<div class="container">
+	<div class="flex flex-wrap gap-4 justify-center">
+		<slot />
+	</div>
+</div>

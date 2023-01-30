@@ -3,7 +3,7 @@
 	import RegisterForm from '$components/RegisterForm.svelte';
 	import { PUBLIC_CLOUD_NAME } from '$env/static/public';
 	import { Cloudinary } from '@cloudinary/url-gen';
-	import PartyList from '$components/PartyList.svelte';
+	import PartyList from '$components/party/PartyList.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -17,7 +17,25 @@
 
 	// Instantiate a CloudinaryImage object for the image with public ID, 'front_face'.
 	// const myImage = cld.image('cld-sample');
+
+	let preloadImageUrls: string[] = [];
+
+	if (data.guestOf?.length !== undefined && data.guestOf.length > 0) {
+		data.guestOf.forEach((party) => {
+			party.guests.forEach((guest) => {
+				if (guest.image) {
+					preloadImageUrls.push(guest.image);
+				}
+			});
+		});
+	}
 </script>
+
+<svelte:head>
+	{#each preloadImageUrls as image}
+		<link rel="preload" as="image" href={image} />
+	{/each}
+</svelte:head>
 
 <Page title="Home" description="Vote on the best dressed at your party!">
 	{#if !data.session?.user}
@@ -39,17 +57,20 @@
 			<!-- Display Parties the User is a host of -->
 			<div class="card bg-base-200 p-4">
 				<h1 class="text-4xl font-bold mb-2">Your Parties</h1>
-				{#if data.parties && data.parties.length > 0}
-					<PartyList parties={data.parties} />
+				{#if data.hosting && data.hosting.length > 0}
+					<PartyList parties={data.hosting} />
 				{:else}
 					<p>Create a party to get started!</p>
 				{/if}
 			</div>
 
 			<!-- Display Parties the User is a guest at -->
-			<div class="card bg-base-200 p-4">
-				<h1 class="text-4xl font-bold">Guest Of</h1>
-			</div>
+			{#if data.guestOf && data.guestOf.length > 0}
+				<div class="card bg-base-200 p-4">
+					<h1 class="text-4xl font-bold mb-2">Guest Of</h1>
+					<PartyList parties={data.guestOf} />
+				</div>
+			{/if}
 		</div>
 	{/if}
 </Page>

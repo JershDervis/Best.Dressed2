@@ -5,6 +5,11 @@ import { router } from '$lib/server/trpc/router';
 export const load: PageServerLoad = async (event) => {
 	const session = await event.locals.getSession();
 	return {
-		parties: session?.user ? router.createCaller(await createContext(event)).party.list() : null
+		hosting: session?.user
+			? router.createCaller(await createContext(event)).party.list('host')
+			: null,
+		guestOf: session?.user
+			? router.createCaller(await createContext(event)).party.list('guest')
+			: null
 	};
 };

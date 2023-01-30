@@ -10,6 +10,10 @@ import type { LayoutServerLoad } from './$types';
 export const load: LayoutServerLoad = async (event) => {
 	const { session } = await event.parent();
 	if (session === null || session.user === undefined) throw redirect(301, '/login');
+
+	//  Default the user profile image if not set
+	session.user.image ??= '/person.svg';
+
 	return {
 		session
 	};

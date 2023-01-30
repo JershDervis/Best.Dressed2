@@ -52,15 +52,15 @@
 		</button>
 	</div>
 
-	<div class="divider">OR</div>
+	<!-- <div class="divider">OR</div>
 
 	<form method="post">
 		<div class="flex flex-wrap gap-4">
 			<input type="text" placeholder="Email Address" class="input input-bordered w-full" />
-			<input type="text" placeholder="Password" class="input input-bordered w-full" />
+			<input type="password" placeholder="Password" class="input input-bordered w-full" />
 			<button class="btn btn-primary w-full">Create your account</button>
 		</div>
-	</form>
+	</form> -->
 
 	<div class="divider" />
 

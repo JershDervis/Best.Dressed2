@@ -1,13 +1,23 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "sqlite"
+//   url      = env("DATABASE_URL")
+// }
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Party {
@@ -16,15 +26,15 @@ model Party {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   hosts     User[]   @relation("Hosts")
-  guests    User[]   @relation("Guests") // Allow non registered guests instead from Guest table
+  guests    User[]   @relation("Guests") // TODO: Allow non registered guests instead from Guest table
 }
 
-model Guest {
-  id         String @id @default(cuid())
-  name       String
-  userId     String
-  linkedUser User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
+// model Guest {
+//   id         String @id @default(cuid())
+//   name       String
+//   userId     String
+//   linkedUser User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+// }
 
 // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
 model Account {
@@ -33,17 +43,18 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? //@db.Text
-  access_token      String? //@db.Text
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_in        Int?
   token_type        String?
   scope             String?
-  id_token          String? //@db.Text
+  id_token          String? @db.Text
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -52,6 +63,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -64,7 +77,7 @@ model User {
   sessions      Session[]
   hosting       Party[]   @relation("Hosts")
   guestOf       Party[]   @relation("Guests")
-  Guest         Guest[]
+  // Guest         Guest[]
 }
 
 model VerificationToken {
