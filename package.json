@@ -34,8 +34,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@auth/core": "^0.2.4",
-		"@auth/sveltekit": "^0.1.11",
+		"@auth/core": "^0.3.0",
+		"@auth/sveltekit": "^0.2.0",
 		"@cloudinary/url-gen": "^1.8.7",
 		"@next-auth/prisma-adapter": "^1.0.5",
 		"@prisma/client": "^4.9.0",

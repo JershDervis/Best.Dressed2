@@ -22,7 +22,6 @@ import { SvelteKitAuth } from '@auth/sveltekit';
 import Google from '@auth/core/providers/google';
 import Facebook from '@auth/core/providers/facebook';
 import Spotify from '@auth/core/providers/spotify';
-import Credentials from '@auth/core/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '$lib/server/prisma';
 
@@ -33,10 +32,7 @@ const authHandler = SvelteKitAuth({
 	secret: AUTH_SECRET,
 	adapter: PrismaAdapter(prisma),
 	session: {
-		strategy: 'database',
-		generateSessionToken: () => {
-			return crypto.randomUUID();
-		}
+		strategy: 'database'
 	},
 	callbacks: {
 		session({ session, user }) {
