@@ -2,9 +2,8 @@
 	import { signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
 	import { PUBLIC_APP_NAME } from '$env/static/public';
-	import type { Session } from '@auth/core/types';
 
-	export let session: Session | null;
+	export let session: App.Session | null;
 
 	const userImage = $page.data?.session?.user?.image ?? '/person.svg';
 
